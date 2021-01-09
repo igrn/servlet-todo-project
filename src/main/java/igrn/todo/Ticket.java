@@ -8,7 +8,7 @@ public class Ticket {
     private String title;
     private static final ArrayList<Ticket> TICKETS = new ArrayList<>();
 
-    public Ticket(int id, String title) {
+    public Ticket(int id, String title, Column column) {
         this.id = id;
         this.title = title;
         TICKETS.add(this);

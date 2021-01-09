@@ -19,4 +19,5 @@ public abstract class RequestHandler {
 
     //TODO: вопрос как это будет работать в других методах кроме GET
     public abstract void processRequest(List<String> parameters) throws ServletException, IOException;
+
 }

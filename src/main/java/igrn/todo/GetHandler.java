@@ -11,20 +11,17 @@ public class GetHandler extends RequestHandler {
         super(request, response);
     }
 
-    //TODO: метод длинноват, надо уменьшить
-    //Предполагается, что параметры отправлены в правильном порядке
     public void processRequest(List<String> parameters) throws ServletException, IOException {
-        boolean hasColumnId = parameters.get(0).equals("columnId");
-        boolean hasTicketId = parameters.get(1).equals("ticketId");
+        boolean hasColumnId = parameters.stream().anyMatch(s -> s.equals("columnId"));
+        boolean hasTicketId = parameters.stream().anyMatch(s -> s.equals("ticketId"));
 
-        String mapping = "/";
-        if (hasColumnId && !hasTicketId) {
-            mapping = "/api/column";
-        } else if (!hasColumnId && hasTicketId) {
-            mapping = "/api/ticket";
-        }
-        if (hasColumnId && hasTicketId) {
-            mapping = "/api/column/ticket";
+        String mapping = "/api/get/column";
+        if (hasColumnId) {
+            if (hasTicketId) {
+                mapping = "/api/get/ticket";
+            } else {
+                mapping = "/api/get/column";
+            }
         }
 
         dispatcher = request.getRequestDispatcher(mapping);

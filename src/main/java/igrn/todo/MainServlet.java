@@ -12,13 +12,14 @@ import java.util.List;
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+        response.setContentType("text/html; charset=UTF-8"); //TODO: пока html, json не умею
         List<String> parameters = Collections.list(request.getParameterNames());
         var getHandler = new GetHandler(request, response);
         getHandler.processRequest(parameters);
     }
 
     @Override
-    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
 
     }
 }

@@ -10,16 +10,24 @@
     <servlet-class>igrn.todo.MainServlet</servlet-class>
   </servlet>
   <servlet>
-    <servlet-name>ColumnServlet</servlet-name>
-    <servlet-class>igrn.todo.ColumnServlet</servlet-class>
+    <servlet-name>GetColumnServlet</servlet-name>
+    <servlet-class>igrn.todo.GetColumnServlet</servlet-class>
+  </servlet>
+  <servlet>
+    <servlet-name>GetTicketServlet</servlet-name>
+    <servlet-class>igrn.todo.GetTicketServlet</servlet-class>
   </servlet>
 
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/api</url-pattern>
+    <url-pattern>/</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
-    <servlet-name>ColumnServlet</servlet-name>
+    <servlet-name>GetColumnServlet</servlet-name>
     <url-pattern>/api/get/column</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>GetTicketServlet</servlet-name>
+    <url-pattern>/api/get/ticket</url-pattern>
   </servlet-mapping>
 </web-app>
