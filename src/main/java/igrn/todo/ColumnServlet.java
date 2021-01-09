@@ -9,11 +9,11 @@ import java.io.IOException;
 public class ColumnServlet  extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-
+        //TODO: Он должен уметь обрабатывать и запросы без id, т.к. возможны запросы GET /columns, в которых нет columnId
     }
 
     @Override
-    protected void doPost(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
+    protected void doPost(HttpServletRequest req, HttpServletResponse resp) throws ServletException, IOException {
 
     }
 }
