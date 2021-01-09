@@ -49,9 +49,8 @@ public class Column {
     @Override
     public String toString() {
         //TODO: возможно, лучше просто выводить количество тикетов в колонке
-        String ticketTitles = tickets.stream().map(ticket -> ticket.getTitle() + ", ")
+        String ticketTitles = tickets.stream().map(ticket -> "{" + ticket.getTitle() + "}, ")
                                               .collect(Collectors.joining());
-        return String.format("Column: id = %d, title = %s", id, title)
-                + ", {Tickets: " + ticketTitles + "}";
+        return String.format("Column: id = %d, title = %s; Tickets: %s", id, title, ticketTitles);
     }
 }

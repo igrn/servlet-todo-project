@@ -10,8 +10,6 @@ import java.io.IOException;
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-//        HttpSession session = request.getSession();
-//        String query = request.getQueryString();
         boolean hasColumnId = request.getParameter("columnId") != null;
         boolean hasTicketId = request.getParameter("ticketId") != null;
 
@@ -31,7 +29,6 @@ public class MainServlet extends HttpServlet {
         }
         dispatcher = request.getRequestDispatcher(forwardMapping);
         dispatcher.forward(request, response);
-
     }
 
     @Override
