@@ -1,13 +1,17 @@
 package igrn.todo;
 
-//TODO: static метод и/или переменная для отображения всех тикетов во всех колонках?
+import java.util.ArrayList;
+
+//TODO: добавить логику удаления из списка TICKETS
 public class Ticket {
     private int id;
     private String title;
+    private static final ArrayList<Ticket> TICKETS = new ArrayList<>();
 
     public Ticket(int id, String title) {
         this.id = id;
         this.title = title;
+        TICKETS.add(this);
     }
 
     public int getId() {
@@ -24,5 +28,16 @@ public class Ticket {
 
     public void setTitle(String title) {
         this.title = title;
+    }
+
+    public static ArrayList<String> getAllTickets() {
+        ArrayList<String> strings = new ArrayList<>();
+        TICKETS.forEach(ticket -> strings.add(ticket.toString()));
+        return strings;
+    }
+
+    @Override
+    public String toString() {
+        return String.format("Ticket: id = %d, title = %s", id, title);
     }
 }
