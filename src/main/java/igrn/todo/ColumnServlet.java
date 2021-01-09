@@ -6,7 +6,8 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 
-public class ColumnServlet  extends HttpServlet {
+//@WebServlet(name = "ColumnServlet", value = "/api/get/column")
+public class ColumnServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         //TODO: Он должен уметь обрабатывать и запросы без id, т.к. возможны запросы GET /columns, в которых нет columnId

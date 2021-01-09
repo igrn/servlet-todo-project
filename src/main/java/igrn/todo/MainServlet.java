@@ -5,13 +5,16 @@ import javax.servlet.http.HttpServlet;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.Collections;
+import java.util.List;
 
+//@WebServlet(name = "MainServlet", value = "/api")
 public class MainServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //Форвард на другие сервлеты в зависимости от значений columnId и ticketId
+        List<String> parameters = Collections.list(request.getParameterNames());
         var getHandler = new GetHandler(request, response);
-        getHandler.execute("columnId", "ticketId");
+        getHandler.processRequest(parameters);
     }
 
     @Override

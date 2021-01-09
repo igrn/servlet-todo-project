@@ -16,10 +16,10 @@
 
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/</url-pattern>
+    <url-pattern>/api</url-pattern>
   </servlet-mapping>
   <servlet-mapping>
     <servlet-name>ColumnServlet</servlet-name>
-    <url-pattern>/api/column</url-pattern>
+    <url-pattern>/api/get/column</url-pattern>
   </servlet-mapping>
 </web-app>

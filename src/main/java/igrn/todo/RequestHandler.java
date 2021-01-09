@@ -5,6 +5,7 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public abstract class RequestHandler {
     protected HttpServletRequest request;
@@ -17,5 +18,5 @@ public abstract class RequestHandler {
     }
 
     //TODO: вопрос как это будет работать в других методах кроме GET
-    public abstract void execute(String... params) throws ServletException, IOException;
+    public abstract void processRequest(List<String> parameters) throws ServletException, IOException;
 }

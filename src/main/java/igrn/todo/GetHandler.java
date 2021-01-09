@@ -4,19 +4,20 @@ import javax.servlet.ServletException;
 import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
+import java.util.List;
 
 public class GetHandler extends RequestHandler {
-
     public GetHandler(HttpServletRequest request, HttpServletResponse response) {
         super(request, response);
     }
 
     //TODO: метод длинноват, надо уменьшить
-    public void execute(String... params) throws ServletException, IOException {
-        boolean hasColumnId = request.getParameter(params[0]) != null;
-        boolean hasTicketId = request.getParameter(params[1]) != null;
-        String mapping = "/";
+    //Предполагается, что параметры отправлены в правильном порядке
+    public void processRequest(List<String> parameters) throws ServletException, IOException {
+        boolean hasColumnId = parameters.get(0).equals("columnId");
+        boolean hasTicketId = parameters.get(1).equals("ticketId");
 
+        String mapping = "/";
         if (hasColumnId && !hasTicketId) {
             mapping = "/api/column";
         } else if (!hasColumnId && hasTicketId) {
