@@ -1,5 +1,6 @@
 package igrn.todo;
 
+//TODO: static метод и/или переменная для отображения всех тикетов во всех колонках?
 public class Ticket {
     private int id;
     private String title;

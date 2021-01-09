@@ -3,12 +3,22 @@
  "http://java.sun.com/dtd/web-app_2_3.dtd" >
 
 <web-app>
+  <display-name>Todo List App</display-name>
   <servlet>
     <servlet-name>MainServlet</servlet-name>
     <servlet-class>igrn.todo.MainServlet</servlet-class>
   </servlet>
+  <servlet>
+    <servlet-name>ColumnServlet</servlet-name>
+    <servlet-class>igrn.todo.ColumnServlet</servlet-class>
+  </servlet>
+
   <servlet-mapping>
     <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/main</url-pattern>
+    <url-pattern>/</url-pattern>
+  </servlet-mapping>
+  <servlet-mapping>
+    <servlet-name>ColumnServlet</servlet-name>
+    <url-pattern>/column</url-pattern>
   </servlet-mapping>
 </web-app>
