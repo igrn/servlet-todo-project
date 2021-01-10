@@ -4,11 +4,12 @@ import java.util.ArrayList;
 import java.util.stream.Collectors;
 
 //TODO: добавить логику удаления из списка COLUMNS
+//TODO: продумать получше создание и доступ к объектам (get, конструктор или через метод)
 public class Column {
     private int id;
     private String title;
     private final ArrayList<Ticket> tickets = new ArrayList<>();;
-    private static final ArrayList<Column> COLUMNS = new ArrayList<>() {{
+    private static final ArrayList<Column> COLUMN_POOL = new ArrayList<>() {{
         add(new Column(1, "Column 1"));
         add(new Column(2, "Column 2"));
         add(new Column(3, "Column 3"));
@@ -45,17 +46,22 @@ public class Column {
         //TODO: добавить назначение тикету ссылку на id колонки, в которой этот тикет теперь находится
     }
 
+    public static Column get(int id) {
+        return COLUMN_POOL.get(id);
+    }
+
     public static ArrayList<String> getAllColumns() {
         ArrayList<String> strings = new ArrayList<>();
-        COLUMNS.forEach(column -> strings.add(column.toString()));
+        COLUMN_POOL.forEach(column -> strings.add(column.toString()));
         return strings;
     }
 
     @Override
     public String toString() {
         //TODO: возможно, лучше просто выводить количество тикетов в колонке
-        String ticketTitles = tickets.stream().map(ticket -> "{\"" + ticket.getTitle() + "\"}, ")
-                                              .collect(Collectors.joining());
+        String ticketTitles = tickets.stream()
+                .map(ticket -> "{\"" + ticket.getTitle() + "\"}, ")
+                .collect(Collectors.joining());
 //        ticketTitles = ticketTitles.substring(0, ticketTitles.length() - 2); //TODO: выбрасывает OutOfBoundsException
         return String.format("Column: id = %d, title = %s; Tickets: %s", id, title, ticketTitles);
     }

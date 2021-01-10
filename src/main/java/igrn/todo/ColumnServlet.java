@@ -13,14 +13,16 @@ import java.util.ArrayList;
 public class ColumnServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        //если передан id, то показать инфу по колонке с этим id; иначе инфу по всем колонкам
-        if (request.getParameter("columnId") == null) {
+        response.setContentType("text/html; charset=UTF-8");
+        //Если id не передан, то выдать список со всеми колонками
+        if (request.getParameter("id") == null) {
             ArrayList<String> columns = Column.getAllColumns();
             PrintWriter writer = response.getWriter();
             writer.println(columns);
             writer.flush();
-        } else {
-            //TODO: код, если передан id (может быть поменяю местами блоки)
         }
+
+        //TODO: код, если передан id (проверить на корректность id)
+
     }
 }
