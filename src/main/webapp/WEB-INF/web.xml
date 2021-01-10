@@ -4,30 +4,4 @@
 
 <web-app>
   <display-name>Todo List App</display-name>
-
-  <servlet>
-    <servlet-name>MainServlet</servlet-name>
-    <servlet-class>igrn.todo.MainServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>GetColumnServlet</servlet-name>
-    <servlet-class>igrn.todo.GetColumnServlet</servlet-class>
-  </servlet>
-  <servlet>
-    <servlet-name>GetTicketServlet</servlet-name>
-    <servlet-class>igrn.todo.GetTicketServlet</servlet-class>
-  </servlet>
-
-  <servlet-mapping>
-    <servlet-name>MainServlet</servlet-name>
-    <url-pattern>/</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GetColumnServlet</servlet-name>
-    <url-pattern>/api/get/column</url-pattern>
-  </servlet-mapping>
-  <servlet-mapping>
-    <servlet-name>GetTicketServlet</servlet-name>
-    <url-pattern>/api/get/ticket</url-pattern>
-  </servlet-mapping>
 </web-app>

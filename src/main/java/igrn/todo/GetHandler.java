@@ -15,12 +15,12 @@ public class GetHandler extends RequestHandler {
         boolean hasColumnId = parameters.stream().anyMatch(s -> s.equals("columnId"));
         boolean hasTicketId = parameters.stream().anyMatch(s -> s.equals("ticketId"));
 
-        String mapping = "/api/get/column";
+        String mapping = "/api/columns";
         if (hasColumnId) {
             if (hasTicketId) {
-                mapping = "/api/get/ticket";
+                mapping = "/api/tickets";
             } else {
-                mapping = "/api/get/column";
+                mapping = "/apis/columns";
             }
         }
 

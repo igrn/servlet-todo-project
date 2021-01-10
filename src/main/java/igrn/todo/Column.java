@@ -42,6 +42,7 @@ public class Column {
 
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);
+        //TODO: добавить назначение тикету ссылку на id колонки, в которой этот тикет теперь находится
     }
 
     public static ArrayList<String> getAllColumns() {
