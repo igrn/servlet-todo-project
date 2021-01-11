@@ -1,7 +1,5 @@
 package igrn.todo;
 
-import java.util.ArrayList;
-
 public abstract class Entity {
     protected int id;
     protected String title;

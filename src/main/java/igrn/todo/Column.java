@@ -15,7 +15,7 @@ public class Column extends Entity {
 
     public Column(int id, String title) {
         super(id, title);
-//        COLUMNS.add(this); //TODO: бесконечная рекурсия из-за вызова выше
+//        COLUMNS.add(this); // FIXME: 09.01.2021 рекурсия из-за вызова выше
     }
 
     public static Column get(int id) {
@@ -28,7 +28,6 @@ public class Column extends Entity {
 
     public void addTicket(Ticket ticket) {
         tickets.add(ticket);
-        //TODO: добавить назначение тикету ссылку на id колонки, в которой этот тикет теперь находится
     }
 
     public static ArrayList<String> getStringList() {

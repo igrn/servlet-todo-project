@@ -16,7 +16,7 @@ public class Ticket extends Entity {
     public Ticket(int id, String title, Column parentColumn) {
         super(id, title);
         parentColumnId = parentColumn.getId();
-//        TICKETS.add(this); //TODO: пока закомменчено, чтобы не было рекурсии
+//        TICKETS.add(this); //FIXME: 09.01.2021 рекурсия из-за вызова выше
     }
 
     public static Ticket get(int id) {
