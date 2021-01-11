@@ -14,31 +14,30 @@ public class TicketServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("text/html; charset=UTF-8");
-        if (request.getParameter("id") == null) {
+        if (request.getParameter("id") != null) {
+            int id = Integer.parseInt(request.getParameter("id"));
+            printTicketInfo(response, id);
+        } else {
             printTicketsList(response);
         }
-
-        int id = Integer.parseInt(request.getParameter("id"));
-        if (id >= 0 && id < Ticket.getTicketsList().size()) {
-            printTicketInfo(response, id);
-        }
     }
 
-    private void printTicketsList(HttpServletResponse response) {
-        ArrayList<String> tickets = Ticket.getTicketsList();
+    private void printTicketsList(HttpServletResponse response) throws IOException {
+        ArrayList<String> tickets = Ticket.getStringList();
         try (PrintWriter writer = response.getWriter()) {
             tickets.forEach(writer::println);
-        } catch (IOException e) {
-            log("Exception: IOException caught in method TicketServlet.printTicketsList()", e);
         }
     }
 
-    private void printTicketInfo(HttpServletResponse response, int id) {
-        ArrayList<String> tickets = Ticket.getTicketsList();
+    private void printTicketInfo(HttpServletResponse response, int id) throws IOException {
         try (PrintWriter writer = response.getWriter()) {
-            writer.println(tickets.get(id));
-        } catch (IOException e) {
-            log("Exception: IOException caught in method TicketServlet.printTicketInfo()", e);
+            if (id >= 0 && id < Ticket.getStringList().size()) {
+                writer.println(Ticket.get(id));
+            } else {
+                throw new RuntimeException("Not a valid id");
+            }
+        } catch (RuntimeException e) {
+            log("Exception: RuntimeException in method TicketServlet.printTicketInfo()", e);
         }
     }
 }

@@ -16,7 +16,7 @@ public class ColumnServlet extends HttpServlet {
         response.setContentType("text/html; charset=UTF-8");
         //Если id не передан, то выдать список со всеми колонками
         if (request.getParameter("id") == null) {
-            ArrayList<String> columns = Column.getAllColumns();
+            ArrayList<String> columns = Column.getStringList();
             PrintWriter writer = response.getWriter();
             writer.println(columns);
             writer.flush();
