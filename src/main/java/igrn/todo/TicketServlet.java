@@ -14,19 +14,13 @@ public class TicketServlet extends HttpServlet implements Printable {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
-        String idParameter = request.getParameter("id");
-        if (idParameter != null) {
-            printInfo(response, idParameter);
-        } else {
-            printList(response);
-        }
+        printResponse(request, response);
     }
 
     @Override
-    public void printInfo(HttpServletResponse response, String idParameter) throws IOException {
+    public void printInfo(HttpServletResponse response, int id) throws IOException {
         try (PrintWriter writer = response.getWriter()) {
-            int id = Integer.parseInt(idParameter);
-            if (id >= 0 && id < Ticket.getStringList().size()) {
+            if (Ticket.POOL.stream().anyMatch(ticket -> ticket.getId() == id)) {
                 writer.println(Ticket.get(id));
             } else {
                 throw new RuntimeException("Not a valid id");
