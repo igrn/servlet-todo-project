@@ -7,12 +7,12 @@ import java.util.stream.Collectors;
 //TODO: добавить логику удаления из списка COLUMNS
 //TODO: продумать получше создание и доступ к объектам (get, конструктор или через метод)
 public class Column extends Entity {
-    private final ArrayList<Ticket> tickets = new ArrayList<>();
     public static final ArrayList<Column> POOL = new ArrayList<>() {{ //Возможно, HashMap лучше
         add(new Column(0, "Column 1"));
         add(new Column(1, "Column 2"));
         add(new Column(2, "Column 3"));
     }};
+    private final ArrayList<Ticket> tickets = new ArrayList<>();
 
     public Column(int id, String title) {
         super(id, title);
@@ -43,6 +43,7 @@ public class Column extends Entity {
         String ticketTitles = tickets.stream()
                 .map(ticket -> "{\"" + ticket.getTitle() + "\"}, ")
                 .collect(Collectors.joining());
-        return String.format("Column: id = %d, title = %s, Tickets: %s", id, title, ticketTitles);
+        return String.format("Column: id = %d, title = %s, Tickets: %s",
+                            id, title, ticketTitles);
     }
 }

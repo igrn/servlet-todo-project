@@ -23,10 +23,8 @@ public class ColumnServlet extends HttpServlet implements Printable {
             if (Column.POOL.stream().anyMatch(column -> column.getId() == id)) {
                 writer.println(Column.get(id));
             } else {
-                throw new RuntimeException("Not a valid id");
+                throw new RuntimeException("A column with the specified id number doesn't exist");
             }
-        } catch (RuntimeException e) {
-            log("RuntimeException in method printInfo()", e);
         }
     }
 

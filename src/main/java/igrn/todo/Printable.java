@@ -10,12 +10,8 @@ public interface Printable {
         if (request.getQueryString() == null) {
             printList(response);
         } else {
-            try {
-                int id = Integer.parseInt(request.getParameter("id"));
-                printInfo(response, id);
-            } catch (NumberFormatException e) {
-                e.printStackTrace(); // FIXME: 11.01.2021 нет норм логов
-            }
+            int id = Integer.parseInt(request.getParameter("id"));
+            printInfo(response, id);
         }
     }
 

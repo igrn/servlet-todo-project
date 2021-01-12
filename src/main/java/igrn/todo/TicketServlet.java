@@ -23,10 +23,8 @@ public class TicketServlet extends HttpServlet implements Printable {
             if (Ticket.POOL.stream().anyMatch(ticket -> ticket.getId() == id)) {
                 writer.println(Ticket.get(id));
             } else {
-                throw new RuntimeException("Not a valid id");
+                throw new RuntimeException("A ticket with the specified id number doesn't exist");
             }
-        } catch (RuntimeException e) {
-            log("RuntimeException in method printInfo()", e);
         }
     }
 
