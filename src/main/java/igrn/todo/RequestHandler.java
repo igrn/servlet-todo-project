@@ -17,7 +17,7 @@ public abstract class RequestHandler {
         this.response = response;
     }
 
-    //TODO: вопрос как это будет работать в других методах кроме GET
+    //TODO: 09.01.2021 вопрос как это будет работать в других методах кроме GET
     public abstract void processRequest(List<String> parameters) throws ServletException, IOException;
 
 }

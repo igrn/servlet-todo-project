@@ -5,18 +5,15 @@ import java.util.List;
 import java.util.stream.Collectors;
 
 public class Column extends Ticket {
-    private List<Ticket> tickets = new ArrayList<>();
+    private final List<Ticket> tickets; //если будет 2й конструктор без tickets, тогда final нельзя
 
-    public Column(int id, String title) {
+    public Column(int id, String title, List<Ticket> tickets) {
         super(id, title);
+        this.tickets = tickets;
     }
 
     public List<Ticket> getTickets() {
         return tickets;
-    }
-
-    public void setTickets(List<Ticket> tickets) {
-        this.tickets = tickets;
     }
 
     public void addTicket(Ticket ticket) {
