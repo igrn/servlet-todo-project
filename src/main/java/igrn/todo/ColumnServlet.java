@@ -12,7 +12,7 @@ import java.util.List;
 
 // TODO: 14.01.2021 Много повторов с TicketServlet
 @WebServlet(name = "Columns", value = "/api/columns")
-public class ColumnServlet extends HttpServlet { // FIXME: 13.01.2021 Нужен ли тут интерфейс вообще?
+public class ColumnServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
@@ -24,7 +24,7 @@ public class ColumnServlet extends HttpServlet { // FIXME: 13.01.2021 Нужен
                 int id = Integer.parseInt(request.getParameter("id"));
                 writer.println(findColumn(id, columns));
             } else {
-                columns.forEach(writer::println); //переделать в JsonWriter? (через manager)
+                columns.forEach(writer::println); //переделать в JsonManager?
             }
         }
     }
