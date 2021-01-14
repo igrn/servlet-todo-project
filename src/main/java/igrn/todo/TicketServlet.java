@@ -1,5 +1,6 @@
 package igrn.todo;
 
+import javax.json.Json;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,19 +18,19 @@ public class TicketServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/board.json"); //Это можно вызвать только из сервлета
-        List<Column> columns = JsonManager.readJson(input);
+        List<Column> columns = JsonManager.toColumnList(Json.createReader(input).readArray());
 
         try (PrintWriter writer = response.getWriter()) {
             if (request.getQueryString() != null) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                writer.println(findTicket(id, columns));
+                writer.println(findTicket(id, columns)); // FIXME: 14.01.2021 переделать под JsonManager
             } else {
-                columns.forEach(column -> column.getTickets().forEach(writer::println));
+                columns.forEach(column -> column.getTickets().forEach(writer::println)); // FIXME: 14.01.2021 переделать под JsonManager
             }
         }
     }
 
-    private Ticket findTicket(int id, List<Column> columns) {
+    private static Ticket findTicket(int id, List<Column> columns) {
         List <Ticket> tickets = columns.stream().flatMap(column -> column.getTickets().stream())
                                                 .collect(Collectors.toList());
 

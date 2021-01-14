@@ -1,46 +1,54 @@
 package igrn.todo;
 
 import javax.json.Json;
+import javax.json.JsonArray;
+import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
-import javax.json.JsonReader;
-import javax.json.JsonWriter;
-import java.io.IOException;
-import java.io.InputStream;
-import java.nio.file.Files;
-import java.nio.file.Path;
 import java.util.List;
 import java.util.stream.Collectors;
 
 // TODO: 13.01.2021 Отработать кейс PUT тикета (переделать в Set или HashMap?)
+// FIXME: 14.01.2021 Методы практически полностью совпадают, их нужно как-то обобщить (наследование?!)
 public class JsonManager {
-    public static List<Column> readJson(InputStream jsonFile) throws IOException {
-        try (JsonReader reader = Json.createReader(jsonFile)) {
-            List<JsonObject> columns = reader.readObject().getJsonArray("columns")
-                                                          .getValuesAs(JsonObject.class);
-
-            return columns.stream().map(column -> { int id = column.getInt("id");
-                                                    String title = column.getString("title");
-                                                    return new Column(id, title, parseTickets(column)); })
-                                   .collect(Collectors.toList());
-        }
+    // Конвертирует json-массив колонок в список (содержит тикеты)
+    public static List<Column> toColumnList(JsonArray jsonArray) {
+        List<JsonObject> columns = jsonArray.getValuesAs(JsonObject.class);
+        return columns.stream().map(column -> {
+                                        int id = column.getInt("id");
+                                        String title = column.getString("title");
+                                        List<Ticket> tickets = toTicketList(column.getJsonArray("tickets"));
+                                        return new Column(id, title, tickets);
+                               }).collect(Collectors.toList());
     }
 
-    private static List<Ticket> parseTickets(JsonObject column) {
-        List<JsonObject> tickets = column.getJsonArray("tickets").getValuesAs(JsonObject.class);
-
-        return tickets.stream().map(ticket -> { int id = ticket.getInt("id");
-                                                String title = ticket.getString("title");
-                                                return new Ticket(id, title); })
-                               .collect(Collectors.toList());
+    // Конвертирует json-массив тикетов ОДНОЙ колонки в список тикетов
+    private static List<Ticket> toTicketList(JsonArray jsonArray) {
+        List<JsonObject> tickets = jsonArray.getValuesAs(JsonObject.class);
+        return tickets.stream().map(ticket -> {
+                                        int id = ticket.getInt("id");
+                                        String title = ticket.getString("title");
+                                        return new Ticket(id, title);
+                               }).collect(Collectors.toList());
     }
 
-    // FIXME: 13.01.2021 доделать этот метод?
-    private static void writeJson(Path source, Path target) throws IOException {
-        try (JsonReader reader = Json.createReader(Files.newInputStream(source));
-             JsonWriter writer = Json.createWriter(Files.newBufferedWriter(target)))
-        {
-            JsonObject column = reader.readObject();
-            writer.writeObject(column);
-        }
+    // Конвертирует список колонок обратно в json-массив (так же содержит тикеты)
+    public static JsonArray toJsonColumns(List<Column> columns) {
+        JsonArrayBuilder builder = Json.createArrayBuilder();
+        columns.stream().map(column -> Json.createObjectBuilder()
+                                           .add("id", column.getId())
+                                           .add("title", column.getTitle())
+                                           .add("tickets", toJsonTickets(column.getTickets())))
+                        .forEach(builder::add);
+        return builder.build();
+    }
+
+    // Конвертирует список тикетов обратно в json-массив (не обязательно одной колонки)
+    private static JsonArray toJsonTickets(List<Ticket> tickets) {
+        JsonArrayBuilder builder = Json.createArrayBuilder();
+        tickets.stream().map(ticket -> Json.createObjectBuilder()
+                                           .add("id", ticket.getId())
+                                           .add("title", ticket.getTitle()))
+                        .forEach(builder::add);
+        return builder.build();
     }
 }

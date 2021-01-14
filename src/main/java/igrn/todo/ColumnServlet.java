@@ -1,5 +1,6 @@
 package igrn.todo;
 
+import javax.json.Json;
 import javax.servlet.ServletException;
 import javax.servlet.annotation.WebServlet;
 import javax.servlet.http.HttpServlet;
@@ -17,19 +18,20 @@ public class ColumnServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/board.json"); //Это можно вызвать только из сервлета
-        List<Column> columns = JsonManager.readJson(input);
+        List<Column> columns = JsonManager.toColumnList(Json.createReader(input).readArray());
 
         try (PrintWriter writer = response.getWriter()) {
             if (request.getQueryString() != null) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                writer.println(findColumn(id, columns));
+                writer.println(findColumn(id, columns)); // FIXME: 14.01.2021 переделать под JsonManager
             } else {
-                columns.forEach(writer::println); //переделать в JsonManager?
+               var jsonWriter = Json.createWriter(writer);
+               jsonWriter.writeArray(JsonManager.toJsonColumns(columns));
             }
         }
     }
 
-    private Column findColumn(int id, List<Column> columns) {
+    private static Column findColumn(int id, List<Column> columns) {
         return columns.stream().filter(column -> column.getId() == id)
                                .findFirst()
                                .orElseThrow(() ->
