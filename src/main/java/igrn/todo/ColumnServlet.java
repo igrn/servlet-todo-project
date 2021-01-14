@@ -16,7 +16,7 @@ public class ColumnServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
-        InputStream input = getServletContext().getResourceAsStream("/WEB-INF/desk.json"); //Это можно вызвать только из сервлета
+        InputStream input = getServletContext().getResourceAsStream("/WEB-INF/board.json"); //Это можно вызвать только из сервлета
         List<Column> columns = JsonManager.readJson(input);
 
         try (PrintWriter writer = response.getWriter()) {
