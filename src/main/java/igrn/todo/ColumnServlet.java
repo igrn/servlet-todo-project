@@ -8,33 +8,24 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.List;
 
-// TODO: 14.01.2021 Много повторов с TicketServlet
+// TODO: 14.01.2021 Много дублирования с TicketServlet (вытащить в интерфейс или сервлет-родитель?)
 @WebServlet(name = "Columns", value = "/api/columns")
 public class ColumnServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/board.json"); //Это можно вызвать только из сервлета
-        List<Column> columns = JsonManager.toColumnList(Json.createReader(input).readArray());
+        List<Column> columns = JsonParser.toColumnList(Json.createReader(input).readArray());
 
-        try (PrintWriter writer = response.getWriter()) {
+        try (var jsonWriter = Json.createWriter(response.getWriter())) {
             if (request.getQueryString() != null) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                writer.println(findColumn(id, columns)); // FIXME: 14.01.2021 переделать под JsonManager
+                jsonWriter.writeObject(JsonParser.toJson(Column.find(id, columns)));
             } else {
-               var jsonWriter = Json.createWriter(writer);
-               jsonWriter.writeArray(JsonManager.toJsonColumns(columns));
+                jsonWriter.writeArray(JsonParser.toJsonColumns(columns));
             }
         }
-    }
-
-    private static Column findColumn(int id, List<Column> columns) {
-        return columns.stream().filter(column -> column.getId() == id)
-                               .findFirst()
-                               .orElseThrow(() ->
-                new RuntimeException("A column with the specified id number doesn't exist"));
     }
 }

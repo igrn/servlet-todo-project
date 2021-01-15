@@ -8,9 +8,7 @@ import javax.servlet.http.HttpServletRequest;
 import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
-import java.io.PrintWriter;
 import java.util.List;
-import java.util.stream.Collectors;
 
 @WebServlet(name = "Tickets", value = "/api/tickets")
 public class TicketServlet extends HttpServlet {
@@ -18,25 +16,16 @@ public class TicketServlet extends HttpServlet {
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         response.setContentType("application/json; charset=UTF-8");
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/board.json"); //Это можно вызвать только из сервлета
-        List<Column> columns = JsonManager.toColumnList(Json.createReader(input).readArray());
+        List<Column> columns = JsonParser.toColumnList(Json.createReader(input).readArray());
+        List<Ticket> tickets = Ticket.collectAll(columns);
 
-        try (PrintWriter writer = response.getWriter()) {
+        try (var jsonWriter = Json.createWriter(response.getWriter())) {
             if (request.getQueryString() != null) {
                 int id = Integer.parseInt(request.getParameter("id"));
-                writer.println(findTicket(id, columns)); // FIXME: 14.01.2021 переделать под JsonManager
+                jsonWriter.writeObject(JsonParser.toJson(Ticket.find(id, tickets)));
             } else {
-                columns.forEach(column -> column.getTickets().forEach(writer::println)); // FIXME: 14.01.2021 переделать под JsonManager
+                jsonWriter.writeArray(JsonParser.toJsonTickets(tickets));
             }
         }
-    }
-
-    private static Ticket findTicket(int id, List<Column> columns) {
-        List <Ticket> tickets = columns.stream().flatMap(column -> column.getTickets().stream())
-                                                .collect(Collectors.toList());
-
-        return tickets.stream().filter(ticket -> ticket.getId() == id)
-                               .findFirst()
-                               .orElseThrow(() ->
-                new RuntimeException("A ticket with the specified id number doesn't exist"));
     }
 }

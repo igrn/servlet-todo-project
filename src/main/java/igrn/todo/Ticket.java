@@ -1,28 +1,22 @@
 package igrn.todo;
 
-public class Ticket {
-    protected int id;
-    protected String title;
+import java.util.List;
+import java.util.stream.Collectors;
+
+public class Ticket extends BoardElement {
 
     public Ticket(int id, String title) {
-        this.id = id;
-        this.title = title;
-    }
-
-    public int getId() {
-        return id;
-    }
-
-    public String getTitle() {
-        return title;
-    }
-
-    public void setTitle(String title) {
-        this.title = title;
+        super(id, title);
     }
 
     @Override
     public String toString() {
         return String.format("Ticket: id = %d, title = %s", id, title);
+    }
+
+    //Собирает список из всех тикетов на доске (для удобного поиска по id)
+    public static List<Ticket> collectAll(List<Column> columns) {
+        return columns.stream().flatMap(column -> column.getTickets().stream())
+                               .collect(Collectors.toList());
     }
 }

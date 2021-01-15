@@ -3,8 +3,8 @@ package igrn.todo;
 import java.util.List;
 import java.util.stream.Collectors;
 
-public class Column extends Ticket {
-    private final List<Ticket> tickets; //если будет 2й конструктор без tickets, тогда final нельзя
+public class Column extends BoardElement {
+    private final List<Ticket> tickets;
 
     public Column(int id, String title, List<Ticket> tickets) {
         super(id, title);
@@ -24,6 +24,6 @@ public class Column extends Ticket {
         String ticketTitles = tickets.stream().map(Ticket::getTitle)
                                               .collect(Collectors.joining(", "));
         return String.format("Column: id = %d, title = %s, Tickets: %s",
-                                               id, title, ticketTitles);
+                             id, title, ticketTitles);
     }
 }
