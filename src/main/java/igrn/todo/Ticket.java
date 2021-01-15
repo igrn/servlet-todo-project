@@ -15,7 +15,7 @@ public class Ticket extends BoardElement {
     }
 
     //Собирает список из всех тикетов на доске (для удобного поиска по id)
-    public static List<Ticket> collectAll(List<Column> columns) {
+    public static List<Ticket> collectAllFrom(List<Column> columns) {
         return columns.stream().flatMap(column -> column.getTickets().stream())
                                .collect(Collectors.toList());
     }

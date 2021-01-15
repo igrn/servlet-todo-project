@@ -17,7 +17,7 @@ public class TicketServlet extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/board.json"); //Это можно вызвать только из сервлета
         List<Column> columns = JsonParser.toColumnList(Json.createReader(input).readArray());
-        List<Ticket> tickets = Ticket.collectAll(columns);
+        List<Ticket> tickets = Ticket.collectAllFrom(columns);
 
         try (var jsonWriter = Json.createWriter(response.getWriter())) {
             if (request.getQueryString() != null) {
