@@ -14,7 +14,7 @@ import java.util.Map;
 public class TicketServlet extends HttpServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
-        response.setContentType("application/json; charset=UTF-8");
+        response.setContentType("application/json;charset=UTF-8");
         InputStream input = getServletContext().getResourceAsStream("/WEB-INF/taskboard.json"); //Это можно вызвать только из сервлета
         Map<Integer, Column> columns = JsonParser.toColumnMap(Json.createReader(input).readArray());
         Map<Integer, Ticket> tickets = new Taskboard("New Board", columns).getAllTickets();
