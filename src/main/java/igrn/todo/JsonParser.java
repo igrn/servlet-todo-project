@@ -5,65 +5,67 @@ import javax.json.JsonArray;
 import javax.json.JsonArrayBuilder;
 import javax.json.JsonObject;
 import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-// TODO: 13.01.2021 Отработать кейс PUT тикета (переделать в Set или Map?)
 // FIXME: 14.01.2021 Методы практически полностью совпадают (не вижу способов упростить)
 public interface JsonParser {
-    // Конвертирует json-массив колонок в java-список колонок (содержит тикеты)
-    static List<Column> toColumnList(JsonArray columnArray) {
+    // Конвертирует json-массив колонок в java-мапу колонок (содержит тикеты)
+    static Map<Integer, Column> toColumnMap(JsonArray columnArray) {
         List<JsonObject> columns = columnArray.getValuesAs(JsonObject.class);
-        return columns.stream().map(column -> {
-                                        int id = column.getInt("id");
-                                        String title = column.getString("title");
-                                        List<Ticket> tickets = toTicketList(column.getJsonArray("tickets"));
-                                        return new Column(id, title, tickets);
-                               }).collect(Collectors.toList());
+        return columns.stream().collect(Collectors.toMap(
+                column -> column.getInt("id"),
+                column -> {
+                    var tickets = toTicketMap(column.getJsonArray("tickets"));
+                    return new Column(column.getString("title"), tickets);
+                }));
     }
 
-    // Конвертирует json-массив тикетов в java-список тикетов (не обязательно одной колонки)
-    static List<Ticket> toTicketList(JsonArray ticketArray) {
+    // Конвертирует json-массив тикетов в java-мапу тикетов (не обязательно одной колонки)
+    static Map<Integer, Ticket> toTicketMap(JsonArray ticketArray) {
         List<JsonObject> tickets = ticketArray.getValuesAs(JsonObject.class);
-        return tickets.stream().map(ticket -> {
-                                        int id = ticket.getInt("id");
-                                        String title = ticket.getString("title");
-                                        return new Ticket(id, title);
-                               }).collect(Collectors.toList());
+        return tickets.stream().collect(Collectors.toMap(
+                ticket -> ticket.getInt("id"),
+                ticket -> new Ticket(ticket.getString("title"))));
     }
 
-    // Конвертирует список колонок обратно в json-массив (так же содержит тикеты)
-    static JsonArray toJsonColumns(List<Column> columns) {
+    // Конвертирует мапу колонок обратно в json-массив (так же содержит тикеты)
+    static JsonArray columnsToJsonArray(Map<Integer, Column> columns) {
         JsonArrayBuilder builder = Json.createArrayBuilder();
-        columns.stream().map(column -> Json.createObjectBuilder()
-                                           .add("id", column.getId())
-                                           .add("title", column.getTitle())
-                                           .add("tickets", toJsonTickets(column.getTickets())))
-                        .forEach(builder::add);
+        for (var entry : columns.entrySet()) {
+            builder.add(Json.createObjectBuilder()
+                            .add("id", entry.getKey())
+                            .add("title", entry.getValue().getTitle())
+                            .add("tickets", ticketsToJsonArray(entry.getValue().getTickets())));
+        }
         return builder.build();
     }
 
-    // Конвертирует список тикетов обратно в json-массив (не обязательно одной колонки)
-    static JsonArray toJsonTickets(List<Ticket> tickets) {
+    // Конвертирует мапу тикетов обратно в json-массив (не обязательно одной колонки)
+    static JsonArray ticketsToJsonArray(Map<Integer, Ticket> tickets) {
         JsonArrayBuilder builder = Json.createArrayBuilder();
-        tickets.stream().map(ticket -> Json.createObjectBuilder()
-                                           .add("id", ticket.getId())
-                                           .add("title", ticket.getTitle()))
-                        .forEach(builder::add);
+        for (var entry : tickets.entrySet()) {
+            builder.add(Json.createObjectBuilder()
+                            .add("id", entry.getKey())
+                            .add("title", entry.getValue().getTitle()));
+        }
         return builder.build();
     }
 
     // Конвертирует 1 java-колонку в объект json, содержащий тикеты
-    static JsonObject toJson(Column column) {
-        return Json.createObjectBuilder().add("id", column.getId())
-                                         .add("title", column.getTitle())
-                                         .add("tickets", toJsonTickets(column.getTickets()))
-                                         .build();
+    static JsonObject toJsonColumn(Map.Entry<Integer, Column> column) {
+        return Json.createObjectBuilder()
+                   .add("id", column.getKey())
+                   .add("title", column.getValue().getTitle())
+                   .add("tickets", ticketsToJsonArray(column.getValue().getTickets()))
+                   .build();
     }
 
     // Конвертирует 1 java-тикет в объект json
-    static JsonObject toJson(Ticket ticket) {
-        return Json.createObjectBuilder().add("id", ticket.getId())
-                                         .add("title", ticket.getTitle())
-                                         .build();
+    static JsonObject toJsonTicket(Map.Entry<Integer, Ticket> ticket) {
+        return Json.createObjectBuilder()
+                   .add("id", ticket.getKey())
+                   .add("title", ticket.getValue().getTitle())
+                   .build();
     }
 }

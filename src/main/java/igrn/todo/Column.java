@@ -1,29 +1,28 @@
 package igrn.todo;
 
-import java.util.List;
+import java.util.Map;
 import java.util.stream.Collectors;
 
-public class Column extends BoardElement {
-    private final List<Ticket> tickets;
+public class Column extends Entity {
+    private final Map<Integer, Ticket> tickets;
 
-    public Column(int id, String title, List<Ticket> tickets) {
-        super(id, title);
+    public Column(String title, Map<Integer, Ticket> tickets) {
+        super(title);
         this.tickets = tickets;
     }
 
-    public List<Ticket> getTickets() {
+    public Map<Integer, Ticket> getTickets() {
         return tickets;
     }
 
-    public void addTicket(Ticket ticket) {
-        tickets.add(ticket);
+    public void addTicket(int id, Ticket ticket) {
+        tickets.put(id, ticket);
     }
 
     @Override
     public String toString() {
-        String ticketTitles = tickets.stream().map(Ticket::getTitle)
-                                              .collect(Collectors.joining(", "));
-        return String.format("Column: id = %d, title = %s, Tickets: %s",
-                             id, title, ticketTitles);
+        String ticketTitles = tickets.values().stream().map(Ticket::getTitle)
+                                                       .collect(Collectors.joining(", "));
+        return String.format("Column: title = %s, Tickets: %s", title, ticketTitles);
     }
 }
