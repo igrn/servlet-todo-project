@@ -24,8 +24,9 @@ public abstract class BoardElement {
     }
 
     public static <T extends BoardElement> T find(int id, List<T> elements) {
+        String message = "Element with the specified id number doesn't exist";
         return elements.stream().filter(element -> element.getId() == id)
                                 .findFirst()
-                                .orElseThrow(RuntimeException::new); //Element with the specified id number doesn't exist
+                                .orElseThrow(() -> new RuntimeException(message));
     }
 }

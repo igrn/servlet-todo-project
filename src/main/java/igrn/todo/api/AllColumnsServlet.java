@@ -12,7 +12,7 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "Columns", value = "/api/columns")
+@WebServlet(name = "ColumnsAll", value = "/api/columns")
 public class AllColumnsServlet extends CommonServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {

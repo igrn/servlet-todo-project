@@ -18,7 +18,7 @@ public interface ColumnParser {
 
     // Парсит один Column из объекта JsonObject
     static Column parse(JsonObject column) {
-        int id = Integer.parseInt(column.getString("id"));
+        int id = column.getInt("id");
         String title = column.getString("title");
         List<Ticket> tickets = TicketParser.parseArray(column.getJsonArray("tickets"));
         return new Column(id, title, tickets);

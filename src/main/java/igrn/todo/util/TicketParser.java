@@ -16,9 +16,9 @@ public interface TicketParser {
     }
 
     // Парсит один Ticket из объекта JsonObject
-    static Ticket parse(JsonObject object) {
-        int id = Integer.parseInt(object.getString("id"));
-        String title = object.getString("title");
+    static Ticket parse(JsonObject ticket) {
+        int id = ticket.getInt("id");
+        String title = ticket.getString("title");
         return new Ticket(id, title);
     }
 

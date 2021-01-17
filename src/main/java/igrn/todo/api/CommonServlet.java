@@ -29,4 +29,7 @@ public class CommonServlet extends HttpServlet {
         response.setContentType("application/json; charset=UTF-8");
         response.setHeader("Server", "tomcat/9.0.41");
     }
+
+    protected void forwardIfEmptyPath(HttpServletRequest request, HttpServletResponse response)
+            throws ServletException, IOException {}
 }
