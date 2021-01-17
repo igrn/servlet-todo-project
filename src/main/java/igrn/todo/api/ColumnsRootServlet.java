@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "ColumnsAll", value = "/api/columns")
-public class AllColumnsServlet extends CommonServlet {
+@WebServlet(name = "ColumnsRoot", value = "/api/columns")
+public class ColumnsRootServlet extends CommonServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doGet(request, response);

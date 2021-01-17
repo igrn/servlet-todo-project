@@ -12,8 +12,8 @@ import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
-@WebServlet(name = "TicketsAll", value = "/api/tickets")
-public class AllTicketsServlet extends CommonServlet {
+@WebServlet(name = "TicketsRoot", value = "/api/tickets")
+public class TicketsRootServlet extends CommonServlet {
     @Override
     protected void doGet(HttpServletRequest request, HttpServletResponse response) throws ServletException, IOException {
         super.doGet(request, response);
