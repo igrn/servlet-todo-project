@@ -15,9 +15,9 @@ public class Ticket extends BoardElement {
     @Override
     public boolean equals(Object o) {
         if (this == o) return true;
-        if (!(o instanceof Ticket)) return false;
-        Ticket that = (Ticket) o;
-        return id == that.getId() && Objects.equals(title, that.getTitle());
+        if (o == null || getClass() != o.getClass()) return false;
+        Ticket ticket = (Ticket) o;
+        return id == ticket.getId() && Objects.equals(title, ticket.getTitle());
     }
 
     @Override

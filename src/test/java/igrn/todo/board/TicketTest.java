@@ -1,5 +1,6 @@
 package igrn.todo.board;
 
+import org.junit.jupiter.api.AfterEach;
 import org.junit.jupiter.api.BeforeEach;
 import org.junit.jupiter.api.Test;
 
@@ -14,15 +15,20 @@ class TicketTest {
     @BeforeEach
     void initTickets() {
         tickets = new ArrayList<>() {{
-            add(new Ticket(0, "Ticket 1"));
-            add(new Ticket(1, "Ticket 2"));
-            add(new Ticket(2, "Ticket 3"));
+            add(new Ticket(0, "Ticket 0"));
+            add(new Ticket(1, "Ticket 1"));
+            add(new Ticket(2, "Ticket 2"));
         }};
+    }
+
+    @AfterEach
+    void destroyTickets() {
+        tickets = null;
     }
 
     @Test
     void testFind() {
-        Ticket expected = new Ticket(1, "Ticket 2");
+        Ticket expected = tickets.get(1);
         Ticket actual = Ticket.find(1, tickets);
         assertEquals(expected, actual);
     }

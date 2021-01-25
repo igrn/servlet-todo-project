@@ -1,6 +1,7 @@
 package igrn.todo.board;
 
 import java.util.List;
+import java.util.Objects;
 import java.util.stream.Collectors;
 
 public class Column extends BoardElement {
@@ -25,5 +26,19 @@ public class Column extends BoardElement {
                                               .collect(Collectors.joining(", "));
         return String.format("Column: id = %d, title = %s, Tickets: %s",
                              id, title, ticketTitles);
+    }
+
+    @Override
+    public boolean equals(Object o) {
+        if (this == o) return true;
+        if (o == null || getClass() != o.getClass()) return false;
+        Column column = (Column) o;
+        return id == column.getId() && Objects.equals(title, column.getTitle())
+                && tickets.hashCode() == column.getTickets().hashCode();
+    }
+
+    @Override
+    public int hashCode() {
+        return Objects.hash(id, title, tickets);
     }
 }
