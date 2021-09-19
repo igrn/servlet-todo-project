@@ -4,11 +4,11 @@ import igrn.todo.board.Column;
 import igrn.todo.board.Taskboard;
 import igrn.todo.util.ColumnParser;
 
+import jakarta.servlet.ServletException;
+import jakarta.servlet.http.HttpServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.json.Json;
-import javax.servlet.ServletException;
-import javax.servlet.http.HttpServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.io.InputStream;
 import java.util.List;
@@ -27,7 +27,7 @@ public class CommonServlet extends HttpServlet {
 
     private void setResponseHeaders(HttpServletResponse response) {
         response.setContentType("application/json; charset=UTF-8");
-        response.setHeader("Server", "tomcat/9.0.41");
+        response.setHeader("Server", "tomcat/10.0.10");
     }
 
     protected void forwardIfEmptyPath(HttpServletRequest request, HttpServletResponse response)

@@ -4,12 +4,12 @@ import igrn.todo.board.Taskboard;
 import igrn.todo.board.Ticket;
 import igrn.todo.util.TicketParser;
 
+import jakarta.servlet.RequestDispatcher;
+import jakarta.servlet.ServletException;
+import jakarta.servlet.annotation.WebServlet;
+import jakarta.servlet.http.HttpServletRequest;
+import jakarta.servlet.http.HttpServletResponse;
 import javax.json.Json;
-import javax.servlet.RequestDispatcher;
-import javax.servlet.ServletException;
-import javax.servlet.annotation.WebServlet;
-import javax.servlet.http.HttpServletRequest;
-import javax.servlet.http.HttpServletResponse;
 import java.io.IOException;
 import java.util.List;
 
@@ -25,7 +25,7 @@ public class TicketServlet extends CommonServlet {
 
         try (var jsonWriter = Json.createWriter(response.getWriter())) {
             int id = Integer.parseInt(path);
-            Ticket ticket = Ticket.find(id, tickets);
+            Ticket ticket = Ticket.find(id, tickets); // TODO: 26.01.21 Попробовать реализовать через метод get у Map
             jsonWriter.writeObject(TicketParser.toJson(ticket));
         }
     }

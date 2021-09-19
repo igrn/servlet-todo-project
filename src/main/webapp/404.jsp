@@ -1,5 +1,5 @@
 <%@ page contentType="text/html;charset=UTF-8" language="java" %>
-<% String name = request.getAttribute("javax.servlet.error.request_uri").toString(); %>
+<% String name = request.getAttribute("jakarta.servlet.error.request_uri").toString(); %>
 <!DOCTYPE html>
 <html lang="en">
 <head>
